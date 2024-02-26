@@ -275,6 +275,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BarcodeScanner.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -292,6 +293,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarcodeScanner.aspx.cs">
+      <DependentUpon>BarcodeScanner.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BarcodeScanner.aspx.designer.cs">
+      <DependentUpon>BarcodeScanner.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Custom\FileDownloader.cs" />
     <Compile Include="GenerateBarcode.aspx.cs">
       <DependentUpon>GenerateBarcode.aspx</DependentUpon>

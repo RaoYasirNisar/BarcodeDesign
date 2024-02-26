@@ -199,34 +199,55 @@ namespace BarcodeDesign
             Session["DataTable"] = dt;
         }
         private void ExportToPdf(List<byte[]> barcodeImages, List<string> idData)
-        {        
+        {
             using (MemoryStream ms = new MemoryStream())
             {
                 PdfWriter writer = new PdfWriter(ms);
                 PdfDocument pdf = new PdfDocument(writer);
-                //Rectangle rect = new Rectangle(20, 20, 300, 600);
-                Document document = new Document(pdf,new iText.Kernel.Geom.PageSize(500f,500f));
-                //BarcodeQRCode qrCode = new BarcodeQRCode("Example QR Code Creation in iText7");
-                //PdfFormXObject barcodeObject = qrCode.createFormXObject(ColorConstants.BLACK, pdfDoc);
-                //Image barcodeImage = new Image(barcodeObject).setWidth(100f).setHeight(100f);
-                //document.add(new Paragraph().add(barcodeImage));
-               // float moduleSize = 100 / barcodeImages.GetBarcodeSize().GetHeight();
-                //qrc.createFormXObject(foreground, moduleSize, document)
+
+                // Set page size to match label size (2x1 inches)
+                Document document = new Document(pdf, new iText.Kernel.Geom.PageSize(2 * 72, 1 * 72)); // 1 inch = 72 points
+                document.SetMargins(0, 0, 0, 0); // Set margins to 0
+
+                // Calculate the width and height of each QR code (1 inch width, 1 inch height)
+                float qrWidth = 1 * 72; // 1 inch converted to points
+                float qrHeight = 1 * 72; // 1 inch converted to points
+
+                // Define fixed height for label text (adjust as needed)
+                float labelHeight = 20; // Assuming a fixed height of 20 points for the label text
+
                 for (int i = 0; i < barcodeImages.Count; i++)
-                {                  
+                {
                     iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory.Create(barcodeImages[i]));
+
+                    // Set size of QR code
+                    img.SetWidth(qrWidth);
+                    img.SetHeight(qrHeight);
+
+                    // Add QR code to the document
                     document.Add(img);
-                  //  document.Add(new AreaBreak(iText.Layout.Properties.AreaBreakType.NEXT_AREA));
-                 //  Paragraph idParagraph = new Paragraph(idData[i]);
-                  // idParagraph.SetWidth(100f);
-                //   document.Add(idParagraph);                    
+
+                    // Add label text below QR code
+                    //string labelText = idData[i] ?? ""; // Ensure label text is not null
+
+                    //// Create a paragraph containing both the QR code and the label text
+                    //Paragraph paragraph = new Paragraph()
+                    //    .Add(img)
+                    //    .Add("\n") // Add a new line between QR code and label text
+                    //    .Add(labelText)
+                    //    .SetWidth(1 * 72); // Set paragraph width to match label width
+
+                    //document.Add(paragraph);
+
+                    // Add spacing between each label
                     //if (i < barcodeImages.Count - 1)
                     //{
-                    //    document.Add(idParagraph);
+                    //    document.Add(new Paragraph("\n")); // Add a blank line for spacing
                     //}
                 }
-                document.Close();                
-                byte[] pdfBytes = ms.ToArray();                
+
+                document.Close();
+                byte[] pdfBytes = ms.ToArray();
                 Response.Clear();
                 Response.ContentType = "application/pdf";
                 Response.AddHeader("content-disposition", "attachment; filename=QRCodeList.pdf");
@@ -234,6 +255,44 @@ namespace BarcodeDesign
                 Response.End();
             }
         }
+
+
+        //private void ExportToPdf(List<byte[]> barcodeImages, List<string> idData)
+        //{        
+        //    using (MemoryStream ms = new MemoryStream())
+        //    {
+        //        PdfWriter writer = new PdfWriter(ms);
+        //        PdfDocument pdf = new PdfDocument(writer);
+        //        //Rectangle rect = new Rectangle(20, 20, 300, 600);
+        //        Document document = new Document(pdf,new iText.Kernel.Geom.PageSize(500f,500f));
+        //        //BarcodeQRCode qrCode = new BarcodeQRCode("Example QR Code Creation in iText7");
+        //        //PdfFormXObject barcodeObject = qrCode.createFormXObject(ColorConstants.BLACK, pdfDoc);
+        //        //Image barcodeImage = new Image(barcodeObject).setWidth(100f).setHeight(100f);
+        //        //document.add(new Paragraph().add(barcodeImage));
+        //       // float moduleSize = 100 / barcodeImages.GetBarcodeSize().GetHeight();
+        //        //qrc.createFormXObject(foreground, moduleSize, document)
+        //        for (int i = 0; i < barcodeImages.Count; i++)
+        //        {                  
+        //            iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory.Create(barcodeImages[i]));
+        //            document.Add(img);
+        //          //  document.Add(new AreaBreak(iText.Layout.Properties.AreaBreakType.NEXT_AREA));
+        //         //  Paragraph idParagraph = new Paragraph(idData[i]);
+        //          // idParagraph.SetWidth(100f);
+        //        //   document.Add(idParagraph);                    
+        //            //if (i < barcodeImages.Count - 1)
+        //            //{
+        //            //    document.Add(idParagraph);
+        //            //}
+        //        }
+        //        document.Close();                
+        //        byte[] pdfBytes = ms.ToArray();                
+        //        Response.Clear();
+        //        Response.ContentType = "application/pdf";
+        //        Response.AddHeader("content-disposition", "attachment; filename=QRCodeList.pdf");
+        //        Response.BinaryWrite(pdfBytes);
+        //        Response.End();
+        //    }
+        //}
         private void ShowMessage(string message, string type)
         {
             dvError.Visible = true;
