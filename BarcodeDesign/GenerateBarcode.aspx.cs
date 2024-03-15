@@ -2,7 +2,9 @@
 using iText.IO.Image;
 using iText.Kernel.Pdf;
 using iText.Layout;
+using iText.Layout.Borders;
 using iText.Layout.Element;
+using iText.Layout.Properties;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,8 +12,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
-using System.Web;
-using System.Web.Services;
 using System.Web.UI.WebControls;
 using ZXing;
 using Image = System.Web.UI.WebControls.Image;
@@ -51,8 +51,8 @@ namespace BarcodeDesign
             barcodeWriter.Format = format;
             barcodeWriter.Options = new ZXing.QrCode.QrCodeEncodingOptions
             {
-                Width = 600,
-                Height = 600
+               // Width = 600,
+                //Height = 600
             };
             foreach (string item in data)
             {
@@ -116,8 +116,8 @@ namespace BarcodeDesign
             {             
                 Image img = new Image();
                 img.ImageUrl = "data:image/png;base64," + Convert.ToBase64String(barcodeImages[i]);
-                //img.Width = 150;
-                //img.Height = 150;                
+                img.Width = 150;
+                img.Height = 150;                
                 img.CssClass = "qr-code";
               
                 Label lblId = new Label();               
@@ -144,7 +144,7 @@ namespace BarcodeDesign
                 ShowMessage("Please select an csv file first", "Error");
                 return;
             }
-            string fileExtention = Path.GetExtension(FileUpload1.PostedFile.FileName);
+            string fileExtention = System.IO.Path.GetExtension(FileUpload1.PostedFile.FileName);
             if (fileExtention != ".csv")
             {
                 ShowMessage("only csv file will be allowed", "Error");
@@ -157,7 +157,7 @@ namespace BarcodeDesign
                     dtCsv.Columns.RemoveAt(0);
                 }
             }
-            string csvPath = Server.MapPath("~/Files/") + Path.GetFileName(FileUpload1.PostedFile.FileName);
+            string csvPath = Server.MapPath("~/Files/") + System.IO.Path.GetFileName(FileUpload1.PostedFile.FileName);
             FileUpload1.SaveAs(csvPath);
             dtCsv.Columns.AddRange(new DataColumn[1]
              {
@@ -204,46 +204,44 @@ namespace BarcodeDesign
             {
                 PdfWriter writer = new PdfWriter(ms);
                 PdfDocument pdf = new PdfDocument(writer);
-
-                // Set page size to match label size (2x1 inches)
-                Document document = new Document(pdf, new iText.Kernel.Geom.PageSize(2 * 72, 1 * 72)); // 1 inch = 72 points
-                document.SetMargins(0, 0, 0, 0); // Set margins to 0
-
-                // Calculate the width and height of each QR code (1 inch width, 1 inch height)
-                float qrWidth = 1 * 72; // 1 inch converted to points
-                float qrHeight = 1 * 72; // 1 inch converted to points
-
-                // Define fixed height for label text (adjust as needed)
-                float labelHeight = 20; // Assuming a fixed height of 20 points for the label text
-
+                // note :  1 inch = 72 points
+                Document document = new Document(pdf, new iText.Kernel.Geom.PageSize(3 * 72, 3 * 72)); 
+                document.SetMargins(0, 0, 0, 0);                
+                float qrWidth = 2 * 72;
+                float qrHeight = 2 * 72;
+                float imgWidth = 1*72;
+                string mbsLogoFilePath = Server.MapPath("~/Images/") + "MBSLogo.png";
+                //   float imgHeight = 1*72;
                 for (int i = 0; i < barcodeImages.Count; i++)
                 {
-                    iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory.Create(barcodeImages[i]));
+               
+                    iText.Layout.Element.Image imgLogo = new iText.Layout.Element.Image(ImageDataFactory.Create(mbsLogoFilePath));
+                    imgLogo.SetHorizontalAlignment(HorizontalAlignment.CENTER);
+                    imgLogo.SetWidth(imgWidth);
+                 //   imgLogo.SetHeight(imgHeight);
+                    document.Add(imgLogo);
 
-                    // Set size of QR code
+                    iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory.Create(barcodeImages[i]));               
                     img.SetWidth(qrWidth);
                     img.SetHeight(qrHeight);
-
-                    // Add QR code to the document
+                    img.SetHorizontalAlignment(HorizontalAlignment.CENTER);
                     document.Add(img);
-
-                    // Add label text below QR code
-                    //string labelText = idData[i] ?? ""; // Ensure label text is not null
-
-                    //// Create a paragraph containing both the QR code and the label text
-                    //Paragraph paragraph = new Paragraph()
-                    //    .Add(img)
-                    //    .Add("\n") // Add a new line between QR code and label text
-                    //    .Add(labelText)
-                    //    .SetWidth(1 * 72); // Set paragraph width to match label width
-
-                    //document.Add(paragraph);
-
-                    // Add spacing between each label
+                    
+                    string labelText = idData[i] ?? "";
+                    Paragraph paragraph = new Paragraph()
+                        //.Add(img)
+                        // .Add("\n")
+                        .Add(labelText)
+                        .SetWidth(3 * 72)
+                        .SetTextAlignment(TextAlignment.CENTER);
+                    //  .SetHeight(1 * 72);
+                    document.Add(paragraph);
                     //if (i < barcodeImages.Count - 1)
                     //{
-                    //    document.Add(new Paragraph("\n")); // Add a blank line for spacing
-                    //}
+                    //    document.Add(new Paragraph("\n"));
+                    //}                    
+                    document.SetBorderLeft(new SolidBorder(2.5f));
+                    document.SetBorderRight(new SolidBorder(2.5f));                   
                 }
 
                 document.Close();
