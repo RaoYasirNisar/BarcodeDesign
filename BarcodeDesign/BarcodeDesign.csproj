@@ -287,6 +287,7 @@
     <Content Include="Images\csv.png" />
     <Content Include="Images\Excel.png" />
     <Content Include="Images\MBSLogo.png" />
+    <Content Include="Images\pdf %282%29.png" />
     <Content Include="Images\pdf.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -300,6 +301,7 @@
       <DependentUpon>BarcodeScanner.aspx</DependentUpon>
     </Compile>
     <Compile Include="Custom\FileDownloader.cs" />
+    <Compile Include="Custom\BorderEventHandler.cs" />
     <Compile Include="GenerateBarcode.aspx.cs">
       <DependentUpon>GenerateBarcode.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

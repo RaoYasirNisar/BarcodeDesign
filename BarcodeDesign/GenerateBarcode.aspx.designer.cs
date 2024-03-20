@@ -76,15 +76,6 @@ namespace BarcodeDesign {
         protected global::System.Web.UI.WebControls.ImageButton btnExportPrdTemp;
         
         /// <summary>
-        /// btnExport control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnExport;
-        
-        /// <summary>
         /// GenerateBarcodesButton control.
         /// </summary>
         /// <remarks>
@@ -112,30 +103,12 @@ namespace BarcodeDesign {
         protected global::System.Web.UI.WebControls.Image img;
         
         /// <summary>
-        /// QRCodesPlaceHolder control.
+        /// btnExport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder QRCodesPlaceHolder;
-        
-        /// <summary>
-        /// dvGrid control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvGrid;
-        
-        /// <summary>
-        /// grvBarcode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grvBarcode;
+        protected global::System.Web.UI.WebControls.ImageButton btnExport;
     }
 }

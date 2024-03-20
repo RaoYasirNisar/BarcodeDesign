@@ -1,8 +1,9 @@
-﻿using BarcodeDesign.Custom;
+﻿//using BarcodeDesign.Custom;
+using BarcodeDesign.Custom;
 using iText.IO.Image;
+using iText.Kernel.Events;
 using iText.Kernel.Pdf;
 using iText.Layout;
-using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using System;
@@ -14,7 +15,7 @@ using System.IO;
 using System.Text;
 using System.Web.UI.WebControls;
 using ZXing;
-using Image = System.Web.UI.WebControls.Image;
+//using Image = System.Web.UI.WebControls.Image;
 
 namespace BarcodeDesign
 {
@@ -72,69 +73,69 @@ namespace BarcodeDesign
         }    
         protected void BtnGenerateBarcode_Click(object sender, EventArgs e)
         {            
-            StringBuilder sb = new StringBuilder();
-            List<string> barcodeData = new List<string>();
-            List<string> idData = new List<string>();
-            foreach (DataRow dr in dtCsv.Rows)
-            {
-                sb.Clear();
-                if (!barcodeData.Contains(dr["barcode"].ToString()))
-                {
-                    barcodeData.Add(dr["barcode"].ToString());
-                   // string[] strText = dr["barcode"].ToString().Split('-');
-                   // sb.Append("Area Code : " + strText[0] + ";");
-                   // sb.Append(Environment.NewLine);
-                   // sb.Append("Job No : " + strText[1] + ";");
-                   // sb.Append(Environment.NewLine);
-                   // if (strText[2].ToString() != "" && strText[2].ToString() != "")
-                   // {
-                   //     sb.Append("Building No : " + strText[2]);
-                   //     sb.Append(Environment.NewLine);
-                   // }
-                   //// sb.Append("Building No : " + strText[2] + ";");
-                   //// sb.Append(Environment.NewLine);
-                   // sb.Append("Phase No : " + strText[3] + ";");
-                   // sb.Append(Environment.NewLine);
-                   // if (strText[4].ToString() != "" && strText[4].ToString() != "")
-                   // {
-                   //     sb.Append("Category : " + strText[4] + "-" + strText[5] + ";");
-                   //     sb.Append(Environment.NewLine);
-                   // }
-                   // if (strText[6].ToString() != "")
-                   // {
-                   //     sb.Append("Packing Type : " + strText[6] + ";");
-                   //     sb.Append(Environment.NewLine);
-                   // }
-                   // barcodeData.Add(sb.ToString());
-                    idData.Add(dr["barcode"].ToString());
-                }
-            }
-            List<byte[]> barcodeImages = GenerateBarcodes(barcodeData);           
-            Panel containerPanel = new Panel();
-            containerPanel.CssClass = "qr-code-container";
-            for (int i = 0; i < barcodeImages.Count; i++)
-            {             
-                Image img = new Image();
-                img.ImageUrl = "data:image/png;base64," + Convert.ToBase64String(barcodeImages[i]);
-                img.Width = 150;
-                img.Height = 150;                
-                img.CssClass = "qr-code";
+            //StringBuilder sb = new StringBuilder();
+            //List<string> barcodeData = new List<string>();
+            //List<string> idData = new List<string>();
+            //foreach (DataRow dr in dtCsv.Rows)
+            //{
+            //    sb.Clear();
+            //    if (!barcodeData.Contains(dr["barcode"].ToString()))
+            //    {
+            //        barcodeData.Add(dr["barcode"].ToString());
+            //       // string[] strText = dr["barcode"].ToString().Split('-');
+            //       // sb.Append("Area Code : " + strText[0] + ";");
+            //       // sb.Append(Environment.NewLine);
+            //       // sb.Append("Job No : " + strText[1] + ";");
+            //       // sb.Append(Environment.NewLine);
+            //       // if (strText[2].ToString() != "" && strText[2].ToString() != "")
+            //       // {
+            //       //     sb.Append("Building No : " + strText[2]);
+            //       //     sb.Append(Environment.NewLine);
+            //       // }
+            //       //// sb.Append("Building No : " + strText[2] + ";");
+            //       //// sb.Append(Environment.NewLine);
+            //       // sb.Append("Phase No : " + strText[3] + ";");
+            //       // sb.Append(Environment.NewLine);
+            //       // if (strText[4].ToString() != "" && strText[4].ToString() != "")
+            //       // {
+            //       //     sb.Append("Category : " + strText[4] + "-" + strText[5] + ";");
+            //       //     sb.Append(Environment.NewLine);
+            //       // }
+            //       // if (strText[6].ToString() != "")
+            //       // {
+            //       //     sb.Append("Packing Type : " + strText[6] + ";");
+            //       //     sb.Append(Environment.NewLine);
+            //       // }
+            //       // barcodeData.Add(sb.ToString());
+            //        idData.Add(dr["barcode"].ToString());
+            //    }
+            //}
+            //List<byte[]> barcodeImages = GenerateBarcodes(barcodeData);           
+            //Panel containerPanel = new Panel();
+            //containerPanel.CssClass = "qr-code-container";
+            //for (int i = 0; i < barcodeImages.Count; i++)
+            //{             
+            //    Image img = new Image();
+            //    img.ImageUrl = "data:image/png;base64," + Convert.ToBase64String(barcodeImages[i]);
+            //    img.Width = 150;
+            //    img.Height = 150;                
+            //    img.CssClass = "qr-code";
               
-                Label lblId = new Label();               
-                lblId.Text = idData[i];
-                lblId.CssClass = "qr-code-id";
+            //    Label lblId = new Label();               
+            //    lblId.Text = idData[i];
+            //    lblId.CssClass = "qr-code-id";
               
-                Panel barcodePanel = new Panel();
-                barcodePanel.CssClass = "qr-code-item";
-                barcodePanel.Controls.Add(img);
-                barcodePanel.Controls.Add(lblId);
+            //    Panel barcodePanel = new Panel();
+            //    barcodePanel.CssClass = "qr-code-item";
+            //    barcodePanel.Controls.Add(img);
+            //    barcodePanel.Controls.Add(lblId);
                 
-                containerPanel.Controls.Add(barcodePanel);
-            }         
-            QRCodesPlaceHolder.Controls.Add(containerPanel);
-            PrintButton.Visible = true;
+            //    containerPanel.Controls.Add(barcodePanel);
+            //}         
+            //QRCodesPlaceHolder.Controls.Add(containerPanel);
+            //PrintButton.Visible = true;
             btnExport.Visible = true;
-            grvBarcode.Visible = false;
+            //grvBarcode.Visible = false;
         }
         protected void btnRead_Click(object sender, EventArgs e)
         {
@@ -194,65 +195,59 @@ namespace BarcodeDesign
         }
         private void BindGrid(DataTable dt)
         {
-            grvBarcode.DataSource = dt;
-            grvBarcode.DataBind();
+         //   grvBarcode.DataSource = dt;
+            //grvBarcode.DataBind();
             Session["DataTable"] = dt;
         }
-        private void ExportToPdf(List<byte[]> barcodeImages, List<string> idData)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                PdfWriter writer = new PdfWriter(ms);
-                PdfDocument pdf = new PdfDocument(writer);
-                // note :  1 inch = 72 points
-                Document document = new Document(pdf, new iText.Kernel.Geom.PageSize(3 * 72, 3 * 72)); 
-                document.SetMargins(0, 0, 0, 0);                
-                float qrWidth = 2 * 72;
-                float qrHeight = 2 * 72;
-                float imgWidth = 1*72;
-                string mbsLogoFilePath = Server.MapPath("~/Images/") + "MBSLogo.png";
-                //   float imgHeight = 1*72;
-                for (int i = 0; i < barcodeImages.Count; i++)
-                {
-               
-                    iText.Layout.Element.Image imgLogo = new iText.Layout.Element.Image(ImageDataFactory.Create(mbsLogoFilePath));
-                    imgLogo.SetHorizontalAlignment(HorizontalAlignment.CENTER);
-                    imgLogo.SetWidth(imgWidth);
-                 //   imgLogo.SetHeight(imgHeight);
-                    document.Add(imgLogo);
+   private void ExportToPdf(List<byte[]> barcodeImages, List<string> idData)
+   {            
+     using (MemoryStream ms = new MemoryStream())
+     {
+        PdfWriter writer = new PdfWriter(ms);
+        PdfDocument pdf = new PdfDocument(writer);             
+        Document document = new Document(pdf, new iText.Kernel.Geom.PageSize(3 * 72, 3 * 72));
+        document.SetMargins(5, 5, 5, 5);
+        //pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BorderEventHandler());
+        float qrWidth = 2 * 72;
+        float qrHeight = 2 * 72;
+        float imgWidth = 1 * 72;
+        
+        string mbsLogoFilePath = Server.MapPath("~/Images/") + "MBSLogo.png";
+        
+        for (int i = 0; i < barcodeImages.Count; i++)
+        {               
+            iText.Layout.Element.Image imgLogo = new iText.Layout.Element.Image(ImageDataFactory.Create(mbsLogoFilePath));
+            imgLogo.SetHorizontalAlignment(HorizontalAlignment.CENTER);
+            imgLogo.SetWidth(imgWidth);
+            document.Add(imgLogo);
 
-                    iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory.Create(barcodeImages[i]));               
-                    img.SetWidth(qrWidth);
-                    img.SetHeight(qrHeight);
-                    img.SetHorizontalAlignment(HorizontalAlignment.CENTER);
-                    document.Add(img);
+            iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory.Create(barcodeImages[i]));               
+            img.SetWidth(qrWidth);
+            img.SetHeight(qrHeight);
+            img.SetHorizontalAlignment(HorizontalAlignment.CENTER);
+            document.Add(img);
                     
-                    string labelText = idData[i] ?? "";
-                    Paragraph paragraph = new Paragraph()
-                        //.Add(img)
-                        // .Add("\n")
-                        .Add(labelText)
-                        .SetWidth(3 * 72)
-                        .SetTextAlignment(TextAlignment.CENTER);
-                    //  .SetHeight(1 * 72);
-                    document.Add(paragraph);
-                    //if (i < barcodeImages.Count - 1)
-                    //{
-                    //    document.Add(new Paragraph("\n"));
-                    //}                    
-                    document.SetBorderLeft(new SolidBorder(2.5f));
-                    document.SetBorderRight(new SolidBorder(2.5f));                   
-                }
-
-                document.Close();
-                byte[] pdfBytes = ms.ToArray();
-                Response.Clear();
-                Response.ContentType = "application/pdf";
-                Response.AddHeader("content-disposition", "attachment; filename=QRCodeList.pdf");
-                Response.BinaryWrite(pdfBytes);
-                Response.End();
-            }
+            string labelText = idData[i] ?? "";
+            Paragraph paragraph = new Paragraph(labelText)
+                .SetFontSize(10)
+                .SetWidth(3 * 72)
+                .SetTextAlignment(TextAlignment.CENTER);            
+            document.Add(paragraph);
+            document.Add(new AreaBreak());
+                  //  document.SetBorderLeft(new SolidBorder(2.5f));
+           // document.SetBorderRight(new SolidBorder(2.5f));                   
         }
+
+        document.Close();
+        byte[] pdfBytes = ms.ToArray();
+        Response.Clear();
+        Response.ContentType = "application/pdf";
+        Response.AddHeader("content-disposition", "attachment; filename=QRCodeList.pdf");
+        Response.BinaryWrite(pdfBytes);
+        Response.End();
+    }
+}
+
 
 
         //private void ExportToPdf(List<byte[]> barcodeImages, List<string> idData)
@@ -319,7 +314,7 @@ namespace BarcodeDesign
         //}
         protected void grvBarcode_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            grvBarcode.PageIndex = e.NewPageIndex;
+           // grvBarcode.PageIndex = e.NewPageIndex;
             BindGrid(dtCsv);
         }
         protected void btnExport_Click(object sender, System.Web.UI.ImageClickEventArgs e)
